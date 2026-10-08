@@ -1,0 +1,135 @@
+{
+  "schema": 1,
+  "product": "metamem",
+  "source": "mem0_agent_plugins",
+  "installed": false,
+  "tested": false,
+  "hosts": {
+    "claude": {
+      "plugin_directory": "integrations/claude-code-plugin",
+      "official_plugin_version": "0.3.3",
+      "source_manifest_sha256": "e3433a5f056e5cc8b7680b3a4f78723b05f134dbc94420b34c991da61ac9d3fa",
+      "installation_commands": [
+        [
+          "claude",
+          "plugin",
+          "marketplace",
+          "add",
+          "./metamem-agent-plugins"
+        ],
+        [
+          "claude",
+          "plugin",
+          "install",
+          "metamem@metamem-plugins",
+          "--scope",
+          "user"
+        ]
+      ],
+      "memory_behavior": "official_hooks_tools_skills_and_lifecycle"
+    },
+    "codex": {
+      "plugin_directory": "integrations/codex-plugin",
+      "official_plugin_version": "0.3.3",
+      "source_manifest_sha256": "e3433a5f056e5cc8b7680b3a4f78723b05f134dbc94420b34c991da61ac9d3fa",
+      "installation_commands": [
+        [
+          "codex",
+          "plugin",
+          "marketplace",
+          "add",
+          "./metamem-agent-plugins"
+        ],
+        [
+          "codex",
+          "plugin",
+          "add",
+          "metamem@metamem-plugins"
+        ]
+      ],
+      "memory_behavior": "official_hooks_tools_skills_and_lifecycle"
+    },
+    "opencode": {
+      "plugin_directory": "integrations/opencode-plugin",
+      "official_plugin_version": "0.4.1",
+      "source_manifest_sha256": "e3433a5f056e5cc8b7680b3a4f78723b05f134dbc94420b34c991da61ac9d3fa",
+      "installation_commands": [
+        [
+          "opencode",
+          "plugin",
+          "./metamem-agent-plugins/integrations/opencode-plugin"
+        ]
+      ],
+      "memory_behavior": "official_hooks_tools_skills_and_lifecycle"
+    },
+    "openclaw": {
+      "plugin_directory": "integrations/openclaw-plugin",
+      "official_plugin_version": "1.2.1",
+      "source_manifest_sha256": "e3433a5f056e5cc8b7680b3a4f78723b05f134dbc94420b34c991da61ac9d3fa",
+      "installation_commands": [
+        [
+          "openclaw",
+          "plugins",
+          "install",
+          "./metamem-agent-plugins/integrations/openclaw-plugin"
+        ]
+      ],
+      "memory_behavior": "official_hooks_tools_skills_and_lifecycle"
+    },
+    "pi": {
+      "plugin_directory": "integrations/pi-agent-plugin",
+      "official_plugin_version": "0.3.2",
+      "source_manifest_sha256": "e3433a5f056e5cc8b7680b3a4f78723b05f134dbc94420b34c991da61ac9d3fa",
+      "installation_commands": [
+        [
+          "pi",
+          "install",
+          "./metamem-agent-plugins/integrations/pi-agent-plugin"
+        ]
+      ],
+      "memory_behavior": "official_hooks_tools_skills_and_lifecycle"
+    },
+    "deepseek": {
+      "plugin_directory": "integrations/deepseek-plugin",
+      "official_plugin_version": "0.3.2",
+      "source_manifest_sha256": "e3433a5f056e5cc8b7680b3a4f78723b05f134dbc94420b34c991da61ac9d3fa",
+      "installation_commands": [
+        [
+          "dsh",
+          "plugin",
+          "--profile",
+          "headless",
+          "add",
+          "./metamem-agent-plugins/integrations/deepseek-plugin"
+        ]
+      ],
+      "memory_behavior": "official_hooks_tools_skills_and_lifecycle"
+    },
+    "hermes": {
+      "plugin_directory": "integrations/hermes-plugin-metamem",
+      "official_plugin_version": "1.3.0",
+      "source_manifest_sha256": "1456673625c7d40474c6ede2b16159b4355508c357b9c5fafa0f295797bcf2de",
+      "installation_commands": [
+        [
+          "hermes",
+          "plugins",
+          "install",
+          "./metamem-agent-plugins/integrations/hermes-plugin-metamem"
+        ],
+        [
+          "hermes",
+          "plugins",
+          "enable",
+          "metamem"
+        ],
+        [
+          "hermes",
+          "memory",
+          "setup",
+          "metamem"
+        ]
+      ],
+      "memory_behavior": "official_hooks_tools_skills_and_lifecycle"
+    }
+  }
+}

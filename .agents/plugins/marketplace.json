@@ -1,0 +1,20 @@
+{
+  "name": "metamem-plugins",
+  "interface": {
+    "displayName": "MetaMemory Plugins"
+  },
+  "plugins": [
+    {
+      "name": "metamem",
+      "source": {
+        "source": "local",
+        "path": "./integrations/codex-plugin"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

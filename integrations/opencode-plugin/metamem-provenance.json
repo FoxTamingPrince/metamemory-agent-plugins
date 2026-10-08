@@ -1,0 +1,83 @@
+{
+  "name": "metamem",
+  "version": "0.1.0",
+  "host": "opencode",
+  "baseline_plugin_version": "0.4.1",
+  "baseline_manifest_sha256": "e3433a5f056e5cc8b7680b3a4f78723b05f134dbc94420b34c991da61ac9d3fa",
+  "changed_files": [
+    "package.json",
+    "dist/index.js",
+    "dist/metamem-endpoint.js",
+    "dist/index.js",
+    "dist/metamem-transport.js"
+  ],
+  "runtime_logic_byte_identical": false,
+  "fixed_endpoint_routing": true,
+  "agent_plugins_contract": 1,
+  "native_behavior_source": "frozen_mem0_agent_plugins",
+  "provider_identity_changed": false,
+  "native_endpoint_configuration": false,
+  "platform_email_auth_transport": false,
+  "routing_only_change": true,
+  "gateway_url_environment": "METAMEM_BACKEND_URL",
+  "gateway_acceptance": "not_passed",
+  "activation_authorized_by_acceptance": false,
+  "files": [
+    {
+      "path": "LICENSE",
+      "sha256": "bf0f5b07ed9d35c6b106159036734dedd24a91bde9783f10202d0872bc9a65dd"
+    },
+    {
+      "path": "README.md",
+      "sha256": "ad1ba0781b24cd808812f2d724a008292ac7b6389669121012b6852937ea1fac"
+    },
+    {
+      "path": "dist/index.js",
+      "sha256": "ab0ee953478a6ed7c9860ab406a5307a743f39779e678541d7c85f3680888fd6"
+    },
+    {
+      "path": "dist/metamem-endpoint.js",
+      "sha256": "39d1682c11388115c384409baf0a9d015ff79430203b569feafc1997a1e4fa47"
+    },
+    {
+      "path": "dist/metamem-transport.js",
+      "sha256": "03bf0a8c30dff37fa4a16b5decb4fbe91572730a9c57790997b7921d8c97875b"
+    },
+    {
+      "path": "index.d.ts",
+      "sha256": "eb178230d223bee48e96b9a2fd2f2eb49a241e885ff2fd0e5c7c537f1fe627da"
+    },
+    {
+      "path": "opencode-skills/mem0-context-loader/SKILL.md",
+      "sha256": "b1220a619de2e06d3c55f822c8fa6e876e0df5a910d50592cb12e42a179ceef7"
+    },
+    {
+      "path": "opencode-skills/mem0-forget/SKILL.md",
+      "sha256": "bcdcfcfa250b63613e45817dd157fb40d8c8e8dee4b6c0c90ae1fd12a8a49ca6"
+    },
+    {
+      "path": "opencode-skills/mem0-remember/SKILL.md",
+      "sha256": "899a91086e1ad2f27ef0a46005016c69e842e6c94b19384b9846a64dbff1c478"
+    },
+    {
+      "path": "opencode-skills/mem0-scope/SKILL.md",
+      "sha256": "532fe7457a9b9a40998932a069442e5424c25a7f0bd8666d3d0c69572ae6c9ed"
+    },
+    {
+      "path": "opencode-skills/mem0-search/SKILL.md",
+      "sha256": "35d8cd15b4f392307e2a119af1661f83c3ee8fd6fbe326cf9c46643edc5055cb"
+    },
+    {
+      "path": "opencode-skills/mem0-status/SKILL.md",
+      "sha256": "5dd571d3662e0884769bba515184cf916c6226f9830bfbff4a306374831c8ec7"
+    },
+    {
+      "path": "opencode-skills/mem0-tour/SKILL.md",
+      "sha256": "456199748ff493d322bb1383d972e1cdad49947fefa0e24c6e7184e434d35ce1"
+    },
+    {
+      "path": "package.json",
+      "sha256": "e4839a495067956518190846fab06f8ca6b2a972d490102a0e4315ec6753d2a6"
+    }
+  ]
+}

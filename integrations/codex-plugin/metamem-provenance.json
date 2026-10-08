@@ -1,0 +1,101 @@
+{
+  "name": "metamem",
+  "version": "0.1.0",
+  "host": "codex",
+  "baseline_plugin_version": "0.3.3",
+  "baseline_manifest_sha256": "e3433a5f056e5cc8b7680b3a4f78723b05f134dbc94420b34c991da61ac9d3fa",
+  "changed_files": [
+    ".codex-plugin/plugin.json",
+    "core/memory_core.py",
+    ".mcp.json"
+  ],
+  "runtime_logic_byte_identical": false,
+  "fixed_endpoint_routing": true,
+  "agent_plugins_contract": 1,
+  "native_behavior_source": "frozen_mem0_agent_plugins",
+  "provider_identity_changed": false,
+  "native_endpoint_configuration": true,
+  "platform_email_auth_transport": false,
+  "routing_only_change": false,
+  "gateway_url_environment": null,
+  "gateway_acceptance": "not_passed",
+  "activation_authorized_by_acceptance": false,
+  "files": [
+    {
+      "path": ".codex-plugin/plugin.json",
+      "sha256": "34b481aa7510c29d9be5fcff42683487b3db88a6901e57aa3a71ec2c9f53f0a8"
+    },
+    {
+      "path": ".mcp.json",
+      "sha256": "2aa9fbd3983b22fa82841d9faef6545e3b941be4f7968d319205d3d86dc37ff1"
+    },
+    {
+      "path": "core/_harness_id.py",
+      "sha256": "a658eba8336b5d084413e3d42ee8bf022014a17a85670a220830084d4e8f1330"
+    },
+    {
+      "path": "core/flush_worker.py",
+      "sha256": "d3a239738cc6043d6c42435e2a0bbda81bcdb03b6ce46be3c45abe4ea112e028"
+    },
+    {
+      "path": "core/hook_runner.py",
+      "sha256": "8791a8641d2a1ad34cdacaf58f6a5b55db4b3a2dda324f2fd0117457f54f7bf3"
+    },
+    {
+      "path": "core/mcp_server.py",
+      "sha256": "1125d3f2756c8bc4937b03b859bf94420bc2ac2c2c569784951351672203920c"
+    },
+    {
+      "path": "core/memory_cli.py",
+      "sha256": "daf7e4d31b9ef3a92d934d2c4a75c3cabbcf300a95c30bb3e009f8bf22ade38c"
+    },
+    {
+      "path": "core/memory_core.py",
+      "sha256": "2351817b96b535986544fe793b4677b63ede448d9b084691242a39f56759be6a"
+    },
+    {
+      "path": "core/telemetry.py",
+      "sha256": "853f1ca2c81f7e742e186f86b8ee63663f1f783373b9189ee94ef29ba7560a09"
+    },
+    {
+      "path": "hooks/adapter.py",
+      "sha256": "396b6fb094f7d69ba32006ed6ba32c5643efcd19778a31ead6fd45d9daf17632"
+    },
+    {
+      "path": "hooks/hooks.json",
+      "sha256": "23e06311823052cb2b1bddf52612faf4e5a9c0e69d0d8b2a12227d62d1ee136f"
+    },
+    {
+      "path": "plugin-build.json",
+      "sha256": "db06a41ecac77a39541f235434fc680aa96c603b5921a4469293af490998bcca"
+    },
+    {
+      "path": "skills/forget/SKILL.md",
+      "sha256": "3627a5b7c53caf77aa32712fa1708bb72638ddb881cacfb84a73945cc79d7cad"
+    },
+    {
+      "path": "skills/pause/SKILL.md",
+      "sha256": "062872b7dcebee61ec4a23e6f041d9e8335aec11cc7bb7b3ca30bd2d4850db52"
+    },
+    {
+      "path": "skills/remember/SKILL.md",
+      "sha256": "13ff665165b4cddde225759225cbefd1d9a825652cf352ce62506678d401e68d"
+    },
+    {
+      "path": "skills/resume/SKILL.md",
+      "sha256": "7bc66c8de756275e3d3756e8425f79cdea1d6b2f9dd91d545a24b91c9a6763fd"
+    },
+    {
+      "path": "skills/search/SKILL.md",
+      "sha256": "7d4f9afee9646f584fb63a0d98601ab1c78eee66b51205a26c570150af29b236"
+    },
+    {
+      "path": "skills/status/SKILL.md",
+      "sha256": "6107d3e23eb7052d954d8ad085677a6c78a55938bd9a3f7d0bf65499750d896e"
+    },
+    {
+      "path": "tests/test_codex.py",
+      "sha256": "0a9eb1e1519da0cd7170343fce89f4a687655c3bf05ced5e33b712bd9da78594"
+    }
+  ]
+}

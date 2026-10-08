@@ -1,0 +1,107 @@
+{
+  "name": "metamem",
+  "version": "0.1.0",
+  "host": "pi",
+  "baseline_plugin_version": "0.3.2",
+  "baseline_manifest_sha256": "e3433a5f056e5cc8b7680b3a4f78723b05f134dbc94420b34c991da61ac9d3fa",
+  "changed_files": [
+    "package.json",
+    "dist/chunk-35VXRJF7.js",
+    "dist/metamem-endpoint.js",
+    "dist/chunk-35VXRJF7.js",
+    "dist/metamem-transport.js"
+  ],
+  "runtime_logic_byte_identical": false,
+  "fixed_endpoint_routing": true,
+  "agent_plugins_contract": 1,
+  "native_behavior_source": "frozen_mem0_agent_plugins",
+  "provider_identity_changed": false,
+  "native_endpoint_configuration": false,
+  "platform_email_auth_transport": false,
+  "routing_only_change": true,
+  "gateway_url_environment": "METAMEM_BACKEND_URL",
+  "gateway_acceptance": "not_passed",
+  "activation_authorized_by_acceptance": false,
+  "files": [
+    {
+      "path": "LICENSE",
+      "sha256": "bf0f5b07ed9d35c6b106159036734dedd24a91bde9783f10202d0872bc9a65dd"
+    },
+    {
+      "path": "README.md",
+      "sha256": "4c5cbcfba7d3ca2c569df4f2cf6a9115e26170df2eb82f4fc1ce9e96aecd3512"
+    },
+    {
+      "path": "dist/chunk-35VXRJF7.js",
+      "sha256": "eb9480379269e269deb3fecc02f49fd23db797299474c9cf3ad0d90a66e75856"
+    },
+    {
+      "path": "dist/chunk-35VXRJF7.js.map",
+      "sha256": "88914bfac3b57d7d7fc09777f7468522c8eb43af3a22372ce9b6a600cda1b334"
+    },
+    {
+      "path": "dist/entry-BUDzcvbJ.d.ts",
+      "sha256": "5949fb2687eaade8e128124804f5b3339c3507bd1663300c1fd1c300bfaaded8"
+    },
+    {
+      "path": "dist/entry.d.ts",
+      "sha256": "b0af2eb160a938964346759e0240764282e35a1364baad80da5a4515711c45dc"
+    },
+    {
+      "path": "dist/entry.js",
+      "sha256": "89197a4f8dc7ffda8346b50413bcf88c7142d1cadfeb1772a233d98212d14cd3"
+    },
+    {
+      "path": "dist/entry.js.map",
+      "sha256": "cba81f7ad4d5b1b629bf43823f1082e73a10d0c3114c937515e7f8c1047629b3"
+    },
+    {
+      "path": "dist/index.d.ts",
+      "sha256": "faf9bdfe71f7abe8e9b82df5250f3ba6ab225feab77d382361350e3ade120383"
+    },
+    {
+      "path": "dist/index.js",
+      "sha256": "eb91d006dfd2ca57ae8068716e73750c54eb4daeb5f51309ec9e2b161e6bdc32"
+    },
+    {
+      "path": "dist/index.js.map",
+      "sha256": "cba81f7ad4d5b1b629bf43823f1082e73a10d0c3114c937515e7f8c1047629b3"
+    },
+    {
+      "path": "dist/metamem-endpoint.js",
+      "sha256": "39d1682c11388115c384409baf0a9d015ff79430203b569feafc1997a1e4fa47"
+    },
+    {
+      "path": "dist/metamem-transport.js",
+      "sha256": "03bf0a8c30dff37fa4a16b5decb4fbe91572730a9c57790997b7921d8c97875b"
+    },
+    {
+      "path": "package.json",
+      "sha256": "ee8696590eddf8f68fe5ae12fc5988cba7d2391916d6be604f44114058535a37"
+    },
+    {
+      "path": "skills/context-loader/SKILL.md",
+      "sha256": "96d86048742bb6c0d8dada32bd7bf1a4bf2c855e70e201013ba68817af3ab546"
+    },
+    {
+      "path": "skills/forget/SKILL.md",
+      "sha256": "02a529dbf540d00a5f24c529cdf30f563fcd33c2e2f9d76587048802236db204"
+    },
+    {
+      "path": "skills/remember/SKILL.md",
+      "sha256": "10e0aeffa6b662417172249c805b3e064d7104f8ffb89fe8030d3eeb56a8553b"
+    },
+    {
+      "path": "skills/search/SKILL.md",
+      "sha256": "a26350dcc175a7acf064044a34194dc9364ee8781aad506f717c73d4a52a0124"
+    },
+    {
+      "path": "skills/status/SKILL.md",
+      "sha256": "02a1419a8c24e24fddfb90ea60dc217ac8cd9a638d017086352c5a9c5758b5a2"
+    },
+    {
+      "path": "skills/tour/SKILL.md",
+      "sha256": "a2af4a47beb4633154e1789b30b984aacd3a668f47693ab655e5de8803dd1ef0"
+    }
+  ]
+}

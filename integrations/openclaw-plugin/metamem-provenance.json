@@ -1,0 +1,91 @@
+{
+  "name": "metamem",
+  "version": "0.1.0",
+  "host": "openclaw",
+  "baseline_plugin_version": "1.2.1",
+  "baseline_manifest_sha256": "e3433a5f056e5cc8b7680b3a4f78723b05f134dbc94420b34c991da61ac9d3fa",
+  "changed_files": [
+    "package.json",
+    "openclaw.plugin.json",
+    "dist/index.js",
+    "dist/index.js",
+    "dist/metamem-transport.js"
+  ],
+  "runtime_logic_byte_identical": false,
+  "fixed_endpoint_routing": true,
+  "agent_plugins_contract": 1,
+  "native_behavior_source": "frozen_mem0_agent_plugins",
+  "provider_identity_changed": true,
+  "native_endpoint_configuration": true,
+  "platform_email_auth_transport": true,
+  "routing_only_change": false,
+  "gateway_url_environment": null,
+  "gateway_acceptance": "not_passed",
+  "activation_authorized_by_acceptance": false,
+  "files": [
+    {
+      "path": "LICENSE",
+      "sha256": "0bbcbe931c353293a2fafce08326181dfeea0e568c566afd4ce8337a70f5e219"
+    },
+    {
+      "path": "README.md",
+      "sha256": "2fe36f1a0ccf8ae090f603366e2c2b34404144642ad6ec495ef0f9fe5f6e8d51"
+    },
+    {
+      "path": "dist/chunk-H3N55OII.js",
+      "sha256": "4f9157642fcc2e052005d9bb91dbf669c572e513912cb417e144d8cc5930346c"
+    },
+    {
+      "path": "dist/chunk-H3N55OII.js.map",
+      "sha256": "c1e2801c74aebcdfda56db91f36266dadcb3d4e3848e3f7fcefa1604f1511b03"
+    },
+    {
+      "path": "dist/fs-safe.d.ts",
+      "sha256": "8c7f38365cd5f0e48845cdbf76b8f97d25e81dd2a9c79f66de9ec28f5f99be83"
+    },
+    {
+      "path": "dist/fs-safe.js",
+      "sha256": "e63370e39cdee7c2e7c9c12a35868c961e2177b5da78d454988a0fc2d71152cc"
+    },
+    {
+      "path": "dist/fs-safe.js.map",
+      "sha256": "cba81f7ad4d5b1b629bf43823f1082e73a10d0c3114c937515e7f8c1047629b3"
+    },
+    {
+      "path": "dist/index.d.ts",
+      "sha256": "311c035507824524994bea1dee1c9580c2283f7c85d472f5792a99158632b858"
+    },
+    {
+      "path": "dist/index.js",
+      "sha256": "5a34ca6a51c8eb8c19ce6fbaa6667b2ebcacc494b648ba782370e7e9eff21bb5"
+    },
+    {
+      "path": "dist/index.js.map",
+      "sha256": "c5aba861c1e4b48d097a0221832d6fc78b48fc66309806f2e2aab96e7aea6451"
+    },
+    {
+      "path": "dist/metamem-transport.js",
+      "sha256": "03bf0a8c30dff37fa4a16b5decb4fbe91572730a9c57790997b7921d8c97875b"
+    },
+    {
+      "path": "openclaw.plugin.json",
+      "sha256": "3606900bb44e548b4acfa52dab710357b850171c488348a83294a838e8690898"
+    },
+    {
+      "path": "package.json",
+      "sha256": "d3ba59d95c3696c56317c7527a6ecf2fdaeef7c2bd57ece0f972129784b90a73"
+    },
+    {
+      "path": "skills/memory-triage/SKILL.md",
+      "sha256": "df46208fe56fa5f3df388db51e16a795200715a8b0587f21f68ea31b1813ef1a"
+    },
+    {
+      "path": "skills/memory-triage/domains/companion.md",
+      "sha256": "075fe46298cc1901552b3648b814fdf15f7aceda096eb5074c30a41e8596309f"
+    },
+    {
+      "path": "skills/memory-triage/recall-protocol.md",
+      "sha256": "731f75e570b42d750355b8f6accd1c43f96f0eeac0b85de287c8071475971540"
+    }
+  ]
+}

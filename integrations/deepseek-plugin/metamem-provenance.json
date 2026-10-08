@@ -1,0 +1,53 @@
+{
+  "name": "metamem",
+  "version": "0.1.0",
+  "host": "deepseek",
+  "baseline_plugin_version": "0.3.2",
+  "baseline_manifest_sha256": "e3433a5f056e5cc8b7680b3a4f78723b05f134dbc94420b34c991da61ac9d3fa",
+  "changed_files": [
+    "package.json",
+    "dist/index.js",
+    "dist/metamem-transport.js"
+  ],
+  "runtime_logic_byte_identical": false,
+  "fixed_endpoint_routing": true,
+  "agent_plugins_contract": 1,
+  "native_behavior_source": "frozen_mem0_agent_plugins",
+  "provider_identity_changed": false,
+  "native_endpoint_configuration": true,
+  "platform_email_auth_transport": false,
+  "routing_only_change": false,
+  "gateway_url_environment": null,
+  "gateway_acceptance": "not_passed",
+  "activation_authorized_by_acceptance": false,
+  "files": [
+    {
+      "path": "LICENSE",
+      "sha256": "0bbcbe931c353293a2fafce08326181dfeea0e568c566afd4ce8337a70f5e219"
+    },
+    {
+      "path": "README.md",
+      "sha256": "4df00e8c5cc95e7cfec2113eceb74eb21b306039e0ac9a02e0b6271dbff9760b"
+    },
+    {
+      "path": "dist/index.d.ts",
+      "sha256": "8f8dc8bed1e5b9cf1fabeac51d0e446ac73bf4ca410596f82ae8f62cf383b312"
+    },
+    {
+      "path": "dist/index.js",
+      "sha256": "0a1a578f9cf9372f52eab7ef8818a39aa9685cc67dcbd0bbbfd91824f8a502eb"
+    },
+    {
+      "path": "dist/index.js.map",
+      "sha256": "55c51224b26775e6e8a82d5f102cc47915e0eb572a564d7a55d367e78f464d55"
+    },
+    {
+      "path": "dist/metamem-transport.js",
+      "sha256": "03bf0a8c30dff37fa4a16b5decb4fbe91572730a9c57790997b7921d8c97875b"
+    },
+    {
+      "path": "package.json",
+      "sha256": "7b235762c9a9ae58cd79d441ff29a50cb78c9ae21aafc96959320515979e6562"
+    }
+  ]
+}

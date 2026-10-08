@@ -1,0 +1,132 @@
+{
+  "name": "metamem",
+  "version": "0.1.0",
+  "host": "claude",
+  "baseline_plugin_version": "0.3.3",
+  "baseline_manifest_sha256": "e3433a5f056e5cc8b7680b3a4f78723b05f134dbc94420b34c991da61ac9d3fa",
+  "changed_files": [
+    ".claude-plugin/plugin.json",
+    "core/memory_core.py"
+  ],
+  "runtime_logic_byte_identical": false,
+  "fixed_endpoint_routing": true,
+  "agent_plugins_contract": 1,
+  "native_behavior_source": "frozen_mem0_agent_plugins",
+  "provider_identity_changed": false,
+  "native_endpoint_configuration": true,
+  "platform_email_auth_transport": false,
+  "routing_only_change": false,
+  "gateway_url_environment": null,
+  "gateway_acceptance": "not_passed",
+  "activation_authorized_by_acceptance": false,
+  "files": [
+    {
+      "path": ".claude-plugin/plugin.json",
+      "sha256": "9ad78191bb21edd01a8621935f0f169108277ba71b072bfec129948bd40dc8e4"
+    },
+    {
+      "path": ".mcp.json",
+      "sha256": "08f8519ff6e9174e5325cf67d92e4840bfa175a065af1bd49897f657ccacf8c2"
+    },
+    {
+      "path": "README.md",
+      "sha256": "90346caa7eb977211f6957ad9e27c38e12c97166521000d2c0ba057ecbf35f55"
+    },
+    {
+      "path": "adapters/claude/hook.py",
+      "sha256": "71c607ba72aabae91e97985e001518c11141f771dc6a0ad612ce217a0c3def8a"
+    },
+    {
+      "path": "adapters/claude/transcript.py",
+      "sha256": "34a60c572b55fc53f36532746f9189b33dc01919bf32a45df429ba714bc4bf77"
+    },
+    {
+      "path": "agents/sidekick.md",
+      "sha256": "faa504b1a554433358b2c193216c48ac2751694869c0d6e93a67ace299824e7f"
+    },
+    {
+      "path": "core/_harness_id.py",
+      "sha256": "27c7fd41a194f36129c67e96b826c29bfc4d23baa4b8598ae26e509bc9bea144"
+    },
+    {
+      "path": "core/flush_worker.py",
+      "sha256": "d3a239738cc6043d6c42435e2a0bbda81bcdb03b6ce46be3c45abe4ea112e028"
+    },
+    {
+      "path": "core/hook_runner.py",
+      "sha256": "8791a8641d2a1ad34cdacaf58f6a5b55db4b3a2dda324f2fd0117457f54f7bf3"
+    },
+    {
+      "path": "core/mcp_server.py",
+      "sha256": "1125d3f2756c8bc4937b03b859bf94420bc2ac2c2c569784951351672203920c"
+    },
+    {
+      "path": "core/memory_cli.py",
+      "sha256": "daf7e4d31b9ef3a92d934d2c4a75c3cabbcf300a95c30bb3e009f8bf22ade38c"
+    },
+    {
+      "path": "core/memory_core.py",
+      "sha256": "2351817b96b535986544fe793b4677b63ede448d9b084691242a39f56759be6a"
+    },
+    {
+      "path": "core/telemetry.py",
+      "sha256": "853f1ca2c81f7e742e186f86b8ee63663f1f783373b9189ee94ef29ba7560a09"
+    },
+    {
+      "path": "hooks/hooks.json",
+      "sha256": "690e9c366eef75b9aa472b540e11d38f53ed8600bf7d304bb505d505f82948ae"
+    },
+    {
+      "path": "plugin-build.json",
+      "sha256": "0657e782cf1d53cf36018a4daf6371bb3f268aa20eb9c41fe9ed043fa7d4bb5c"
+    },
+    {
+      "path": "skills/forget/SKILL.md",
+      "sha256": "014824e65b2acee8c47d70c34604befd979fb6522eaee799463572f055851fb3"
+    },
+    {
+      "path": "skills/pause/SKILL.md",
+      "sha256": "4283898a6f33f8b821afbd604b53a273ec5fa64abf34830d180bac515e9c78e9"
+    },
+    {
+      "path": "skills/remember/SKILL.md",
+      "sha256": "13ff665165b4cddde225759225cbefd1d9a825652cf352ce62506678d401e68d"
+    },
+    {
+      "path": "skills/resume/SKILL.md",
+      "sha256": "e566d28ae5ce4978ff30c4c53ad36d9dbe2f1e2c2296ad15ccc9473ada56ed14"
+    },
+    {
+      "path": "skills/search/SKILL.md",
+      "sha256": "864dac82800c03015b405783164df6cee05567f97c5b0af3531ead690fcc9b74"
+    },
+    {
+      "path": "skills/status/SKILL.md",
+      "sha256": "c5af7f1ba752e65f4c55a2092209b03e562d9f65f353aa98c77a66a5a3e2a513"
+    },
+    {
+      "path": "tests/conftest.py",
+      "sha256": "0497edc95bfecad4cb9b8acd1eb1cdee602e8b6dbefc316affb822394578878e"
+    },
+    {
+      "path": "tests/integration/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "tests/integration/test_live_scoping.py",
+      "sha256": "eb3665ece166864d14eee902c2016517c505c77f4ea8101b7e97a7b683b2a540"
+    },
+    {
+      "path": "tests/test_claude_build.py",
+      "sha256": "4f79e3a794fd2e0add76118b5c29d119d76b89baaf47888efd69487962bca706"
+    },
+    {
+      "path": "tests/test_memory_core.py",
+      "sha256": "8ec3b533106d4ee39dee3bd1f178b6cf92ab96488bc49721bc6d6e69e46a1321"
+    },
+    {
+      "path": "tests/test_telemetry.py",
+      "sha256": "7c1849bf2002e3c6f096945b9049221f1dea41474d8b4ab053534ab6ae335855"
+    }
+  ]
+}
