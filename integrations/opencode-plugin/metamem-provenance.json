@@ -18,6 +18,7 @@
   "publication_metadata": true,
   "product_readme": true,
   "product_configuration_aliases": false,
+  "published_distribution_install": true,
   "native_behavior_source": "frozen_mem0_agent_plugins",
   "provider_identity_changed": false,
   "native_endpoint_configuration": false,
@@ -81,7 +82,7 @@
     },
     {
       "path": "package.json",
-      "sha256": "0e39c650e2f7800bd2e3e223eab0560c1b6d82a4f771181a6d9901cfc8dac28f"
+      "sha256": "76f436d817210777b2abc4164003ef07815a6df13c76882b8ac582d124745687"
     }
   ]
 }

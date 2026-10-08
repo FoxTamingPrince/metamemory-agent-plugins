@@ -18,6 +18,7 @@
   "publication_metadata": true,
   "product_readme": true,
   "product_configuration_aliases": false,
+  "published_distribution_install": false,
   "native_behavior_source": "frozen_mem0_agent_plugins",
   "provider_identity_changed": false,
   "native_endpoint_configuration": false,
