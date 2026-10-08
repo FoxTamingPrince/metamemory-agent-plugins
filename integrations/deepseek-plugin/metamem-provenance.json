@@ -7,11 +7,15 @@
   "changed_files": [
     "package.json",
     "dist/index.js",
-    "dist/metamem-transport.js"
+    "dist/metamem-transport.js",
+    "README.md"
   ],
   "runtime_logic_byte_identical": false,
   "fixed_endpoint_routing": true,
   "agent_plugins_contract": 1,
+  "publication_metadata": true,
+  "product_readme": true,
+  "product_configuration_aliases": false,
   "native_behavior_source": "frozen_mem0_agent_plugins",
   "provider_identity_changed": false,
   "native_endpoint_configuration": true,
@@ -27,7 +31,7 @@
     },
     {
       "path": "README.md",
-      "sha256": "4df00e8c5cc95e7cfec2113eceb74eb21b306039e0ac9a02e0b6271dbff9760b"
+      "sha256": "bdf749038aad34dc40da9d52e30d598a0854c58350e1c0ef60e3eb3913d8af2c"
     },
     {
       "path": "dist/index.d.ts",
@@ -47,7 +51,7 @@
     },
     {
       "path": "package.json",
-      "sha256": "7b235762c9a9ae58cd79d441ff29a50cb78c9ae21aafc96959320515979e6562"
+      "sha256": "9ad0fb00944193337568c545e9c70a03182acf9af60462c732861d156e9f9858"
     }
   ]
 }

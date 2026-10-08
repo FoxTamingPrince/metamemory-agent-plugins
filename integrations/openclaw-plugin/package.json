@@ -6,8 +6,8 @@
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mem0ai/mem0",
-    "directory": "integrations/openclaw"
+    "url": "git+https://github.com/FoxTamingPrince/metamemory-agent-plugins.git",
+    "directory": "integrations/openclaw-plugin"
   },
   "keywords": [
     "openclaw",
@@ -78,5 +78,9 @@
       "postcss@<8.5.18": ">=8.5.18 <9.0.0",
       "mongoose@>=9.0.0 <9.7.2": ">=9.7.2 <10.0.0"
     }
+  },
+  "homepage": "https://github.com/FoxTamingPrince/metamemory-agent-plugins",
+  "bugs": {
+    "url": "https://github.com/FoxTamingPrince/metamemory-agent-plugins/issues"
   }
 }

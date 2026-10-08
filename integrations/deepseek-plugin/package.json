@@ -6,7 +6,7 @@
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mem0ai/mem0",
+    "url": "git+https://github.com/FoxTamingPrince/metamemory-agent-plugins.git",
     "directory": "integrations/deepseek-plugin"
   },
   "keywords": [
@@ -60,5 +60,9 @@
     "tsup": "^8.5.0",
     "typescript": "^5.6.0",
     "vitest": "^4.1.7"
+  },
+  "homepage": "https://github.com/FoxTamingPrince/metamemory-agent-plugins",
+  "bugs": {
+    "url": "https://github.com/FoxTamingPrince/metamemory-agent-plugins/issues"
   }
 }

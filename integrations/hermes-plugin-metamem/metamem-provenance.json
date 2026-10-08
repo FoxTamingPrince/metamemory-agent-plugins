@@ -10,11 +10,15 @@
     "_setup.py",
     "pyproject.toml",
     "_backend.py",
-    "_metamem_endpoint.py"
+    "_metamem_endpoint.py",
+    "README.md"
   ],
   "runtime_logic_byte_identical": false,
   "fixed_endpoint_routing": true,
   "agent_plugins_contract": 1,
+  "publication_metadata": true,
+  "product_readme": true,
+  "product_configuration_aliases": true,
   "native_behavior_source": "frozen_mem0_agent_plugins",
   "provider_identity_changed": true,
   "native_endpoint_configuration": false,
@@ -30,11 +34,11 @@
     },
     {
       "path": "README.md",
-      "sha256": "9daa98d4357a783caced9415c4fec1c8a5110f2d440ab00b8cfb37f72f0d6683"
+      "sha256": "c9ccdb355f26fdbc3b2b36784d04c30ce00d567dbfed3d46052f6b455c936102"
     },
     {
       "path": "__init__.py",
-      "sha256": "6d03bdc6dc7a799e97068f049298f4a9c8376430c71b3871dcf59a69d74d5ee8"
+      "sha256": "06219bf0d4557b7809addf43dd225ad854f58e43b90a89ada09ec53b5ad415ff"
     },
     {
       "path": "_backend.py",
@@ -42,7 +46,7 @@
     },
     {
       "path": "_metamem_endpoint.py",
-      "sha256": "ffa106f2aa8f1f3676c2524bccbb78b49f721626c101a33716abff5000ae9f77"
+      "sha256": "c39af54dc2b4a0fd91501f27e057a8364d1ab3bbbfb75bf8caa841bbdc779347"
     },
     {
       "path": "_openai_llm.py",
@@ -54,7 +58,7 @@
     },
     {
       "path": "_setup.py",
-      "sha256": "1fb4e03fce83a7f5d22b297baefc12320a60c646389d9b767dcebd9992555d96"
+      "sha256": "9942283db4b6e3e27c1ac4f5ad5d07643997c6b1ad1795fbe9ff172975fdf2d8"
     },
     {
       "path": "plugin.yaml",

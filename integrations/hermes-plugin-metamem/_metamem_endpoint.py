@@ -4,12 +4,10 @@ import httpx
 from urllib.parse import urlsplit
 
 def metamem_transport():
-    return httpx.Client(timeout=300, headers={"X-Metamem-Memory-Component": os.environ["METAMEM_MEMORY_COMPONENT"]})
+    return httpx.Client(timeout=300, headers={"X-Metamem-Memory-Component": os.environ.get("METAMEM_MEMORY_COMPONENT", "mem0_platform")})
 
 def metamem_host():
-    value = os.environ.get("METAMEM_BACKEND_URL")
-    if not value:
-        raise ValueError("metamem_backend_url_required")
+    value = os.environ.get("METAMEM_BACKEND_URL") or "https://metamemory.8-163-122-236.nip.io"
     try:
         url = urlsplit(value)
         valid = (url.scheme in {"http", "https"} and url.hostname and not url.username

@@ -7,11 +7,15 @@
   "changed_files": [
     ".codex-plugin/plugin.json",
     "core/memory_core.py",
-    ".mcp.json"
+    ".mcp.json",
+    "README.md"
   ],
   "runtime_logic_byte_identical": false,
   "fixed_endpoint_routing": true,
   "agent_plugins_contract": 1,
+  "publication_metadata": true,
+  "product_readme": true,
+  "product_configuration_aliases": false,
   "native_behavior_source": "frozen_mem0_agent_plugins",
   "provider_identity_changed": false,
   "native_endpoint_configuration": true,
@@ -28,6 +32,10 @@
     {
       "path": ".mcp.json",
       "sha256": "2aa9fbd3983b22fa82841d9faef6545e3b941be4f7968d319205d3d86dc37ff1"
+    },
+    {
+      "path": "README.md",
+      "sha256": "a576f7c890fab5829b453a9bc86f964f23814d08977ae86be50c140f9eba3de6"
     },
     {
       "path": "core/_harness_id.py",

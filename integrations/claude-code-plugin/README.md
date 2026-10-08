@@ -1,211 +1,125 @@
-# Mem0 for Claude Code
+# Claude Code
 
-Persistent cross-session memory for Claude Code, plus a Sonnet sidekick agent for delegated work.
+为 Claude Code 提供跨会话记忆、自动捕获、自动召回、搜索工具和记忆命令。
 
-Claude Code forgets everything between sessions. This plugin fixes that: hooks capture session details locally, a background worker turns them into Mem0 memories, and Claude automatically gets the relevant ones back at the start of later sessions.
+## 前置条件
 
-Current bundle version: `0.3.1`.
+- MetaMemory 账号与组件 Key。
+- 支持插件、子智能体和 worktree 的 Claude Code。
+- Python 3.10+、Git。
 
-## Prerequisites
-
-- Python 3.10+ and Git.
-- A Claude Code version that supports plugin agents, worktree isolation for agents, and the `SubagentStart`, `SubagentStop`, and `PostToolUseFailure` hook events.
-- A [Mem0 Platform API key](https://app.mem0.ai/dashboard/api-keys) (starts with `m0-`).
-
-## Install
+## 快速开始
 
 ```bash
-export MEM0_API_KEY='your-mem0-api-key'
-claude plugin marketplace add mem0ai/mem0
-claude plugin install mem0@mem0-plugins --scope user --config api_key="$MEM0_API_KEY"
-unset MEM0_API_KEY
+export METAMEM_API_KEY="你的MetaMemory组件Key"
+export METAMEM_BACKEND_URL="https://metamemory.8-163-122-236.nip.io"
+export METAMEM_MEMORY_COMPONENT="mem0_platform"
 ```
-
-Restart Claude Code (or run `/reload-plugins`), then open a Git repository and work normally.
-
-To update:
 
 ```bash
-claude plugin marketplace update mem0-plugins
-claude plugin update mem0@mem0-plugins --scope user
+claude plugin marketplace add FoxTamingPrince/metamemory-agent-plugins
+claude plugin install metamem@metamem-plugins --scope user --config api_key="$METAMEM_API_KEY"
 ```
 
-To remove:
+重新启动 Claude Code，或运行 `/reload-plugins`，然后进入 Git 仓库开始工作。
+
+### 管理插件
 
 ```bash
-claude plugin uninstall mem0@mem0-plugins
+claude plugin marketplace update metamem-plugins
+claude plugin update metamem@metamem-plugins --scope user
+claude plugin uninstall metamem@metamem-plugins
 ```
 
-For local development, verify and load the self-contained plugin directory:
+## 使用方式
 
-```bash
-python3 integrations/agent-plugin-core/build/build.py claude-code --kind native --check
-claude --plugin-dir integrations/claude-code-plugin
-```
+### 自动记忆
 
-## How it works
+钩子在本地记录用户消息、回答及工具结果，后台批量提取记忆；新会话的首次有效提示触发召回。
 
-### Memory
+### 命令
 
-1. **Capture.** Hooks save the main agent's activity locally: user messages, Claude's answers, changed file paths, and short test/build results. Capture does not call a model. Sidekick assignments and completed responses are recorded separately as supporting evidence.
-
-2. **Flush.** After every five completed exchanges, a detached background worker sends that batch to Mem0. Large exchanges flush sooner. Ending or compacting the session flushes anything remaining. The session-end worker sends the conversation already collected by hooks without recording the final answer again. If idle, an auto-flush runs after five minutes (configurable with `MEM0_CODE_IDLE_FLUSH_SECONDS`). The worker survives Claude Code exiting.
-
-3. **Extract.** Each flush sends one or more `add` calls with `agent_id` (the project identity), `user_id` (you), `app_id` (the repository), and `run_id` (the session). Mem0 classifies each extracted memory as either:
-   - **Shared project memory** (`agent_id`): one namespace per repo, scoped by `app_id`. Stores conventions, decisions, constraints, working commands, and failed commands with their fixes. Everyone on the repo reads and writes the same pool. Never carries a `user_id`. Directory information is stored in metadata for directory-scoped searches.
-   - **Personal memory** (`user_id`): your preferred tools, style, habits, and anything you asked to be remembered. Scoped to the repo by `app_id`. Private to you.
-
-4. **Recall.** On the next session's first prompt, if it has at least 20 characters, the plugin searches automatically and supplies up to five relevant memories. No model is called to write the query.
-
-Captured prompts and responses retain their full text after secret redaction. Oversized extraction input is split across requests without discarding message text. Search results and tool evidence still have separate size limits.
-
-After that first search, Claude can call `search_memories` with a specific question, and you can run `/mem0:search` yourself. Explicit searches return up to 3 results by default (configurable to 20), capped at 4,000 characters.
-
-### Sonnet sidekick agent
-
-Sidekick is available only in this plugin. The shared core handles memory and subagent tracking.
-
-`mem0:sidekick` is a Sonnet coding agent that runs in a separate Git worktree. It can investigate, implement, test, debug, or review something instead of the main (Opus/Fable) session doing the same work, reducing cost when the main agent doesn't need to repeat it.
-
-The main agent reviews the result. Corrections go back to the same sidekick so it keeps what it learned. Changes stay in the sidekick's worktree until the main agent reviews and copies them over.
-
-Mem0 never blocks normal Claude Code work when a hook fails. It does not proxy Claude traffic, rewrite tool output, edit `CLAUDE.md`, force Claude to use the sidekick, or change how Claude implements the user's request.
-
-## Use
-
-Work in Claude Code normally. Memory is captured and recalled automatically.
-
-```text
-/mem0:search Why does the ODS serializer keep dates timezone-naive?
-/mem0:search What parser failures were fixed? --top-k 5 --category problems_and_fixes
-/mem0:search Do I prefer pnpm or npm? --scope mine
-```
-
-To use the sidekick:
-
-```text
-Ask Mem0's sidekick to investigate and implement this in its separate worktree.
-Review its result and send any corrections back to the same sidekick.
-```
-
-By default the worktree branches from the repo's default branch. Set `worktree.baseRef` to `"head"` in your Claude settings to branch from the current commit instead. Uncommitted changes are not copied into the sidekick's worktree.
-
-## Commands
-
-| Command | What it does |
+| 命令 | 用途 |
 | --- | --- |
-| `/mem0:search` | Search memories from earlier sessions. Accepts `--top-k <n>`, `--category <name>`, `--scope <repo\|dir\|mine>`, and `--run-id <session-id>`. |
-| `/mem0:status` | Check config, capture state, pending flushes, and API key validity. |
-| `/mem0:forget` | Delete your memories for this repo (shared project memory stays unless you pass `--include-project-memory`). |
-| `/mem0:pause` | Pause memory capture. |
-| `/mem0:resume` | Resume capture after a pause. |
-| `/mem0:remember` | Tell Claude to capture something specific in its reply. |
+| `/metamem:search` | 搜索；支持 `--top-k`、`--category`、`--scope`、`--run-id` |
+| `/metamem:status` | 查看配置、捕获及后台写入状态 |
+| `/metamem:forget` | 删除本项目中的个人记忆 |
+| `/metamem:pause` | 暂停捕获 |
+| `/metamem:resume` | 恢复捕获 |
+| `/metamem:remember` | 指定需要记住的信息 |
 
-Categories for `--category`: `project_knowledge`, `decisions_and_constraints`, `workflows`, `problems_and_fixes`, `results`.
+### 搜索工具
 
-## Search scope
+`search_memories` 用于会话内显式查询。将问题作为查询文本，按项目或个人范围读取结果。
 
-| Scope | What you get |
+### Sidekick 智能体
+
+`metamem:sidekick` 在独立 worktree 中执行任务，继承父会话召回的记忆。查看结果后，将需要的改动合入当前工作区。
+
+## 工作原理
+
+本地捕获 → 后台提取 → 下一会话召回。结束会话或压缩上下文时提交剩余捕获。
+
+## 记忆范围
+
+| 标识 | 用途 |
 | --- | --- |
-| `repo` (default) | All project memory across every subdirectory, plus your preferences |
-| `dir` | Project memory from the current directory (and children), plus your preferences |
-| `mine` | Your personal preferences only |
+| `agent_id` | 共享项目记忆 |
+| `user_id` | 个人记忆 |
+| `app_id` | 仓库身份 |
+| `run_id` | 会话身份 |
 
-Set the default with the `search_scope` setting or `MEM0_CODE_SEARCH_SCOPE`. Pass optional `run_id` to `search_memories` (or `--run-id` to `/mem0:search`) with any scope to search memories saved in that session. Omit it to search across sessions. This filters the returned memories; it does not identify the session making the request. Use a known session ID.
+## 搜索范围
 
-New Git repository memories use a hash of the remote identity in `agent_id`. Searches also include the previous unhashed ID under the same repository `app_id`, so shared memories remain available after upgrading. Older IDs retain their original limitation: matching owner/repository names on different Git hosts share that legacy namespace. Local folders keep their path-based namespaces.
+`repo` 搜索整个仓库；`dir` 聚焦当前目录；`mine` 聚焦个人记忆。
 
-Explicit shared-memory deletion with `--include-project-memory` covers both repository IDs. Default deletion preserves shared memories.
+## 配置
 
-## Settings
-
-| Setting | Default | What it controls |
+| 字段 | 默认值 | 用途 |
 | --- | --- | --- |
-| `api_key` | required | Mem0 Platform API key |
-| `user_id` | local account name | User ID for memory storage. Resolved from: setting, `MEM0_CODE_USER_ID`, `MEM0_USER_ID`, `MEM0_RESOLVED_USER_ID`, `$USER`, `%USERNAME%`, then `default`. Set explicitly to share across machines. |
-| `top_k` | `3` | Max memories per explicit search (1 to 20) |
-| `max_context_chars` | `4000` | Max characters returned per search (1,000 to 10,000) |
-| `search_scope` | `repo` | Default scope: `repo`, `dir`, or `mine` |
+| `api_key` | 必填 | MetaMemory 组件 Key |
+| `user_id` | 用户环境变量或系统用户名 | 个人记忆身份 |
+| `search_scope` | `repo` | `repo`、`dir` 或 `mine` |
+| `max_context_chars` | `4000` | 召回上下文字符预算，范围 1000–10000 |
 
-## What is stored and sent
+使用 `METAMEM_MEMORY_COMPONENT` 选择记忆后端。`search_scope` 可通过 `MEM0_CODE_SEARCH_SCOPE` 设置。个人身份依次读取插件设置、`MEM0_CODE_USER_ID`、`MEM0_USER_ID`、`MEM0_RESOLVED_USER_ID`、`USER`、`USERNAME`，最后使用默认身份。
 
-Local data lives in `${CLAUDE_PLUGIN_DATA}`:
+## 存储与发送的数据
 
-- `api-key`: the configured Mem0 key (readable only by the local user)
-- `evidence.sqlite3`: session details and records of memory creation/search
-- `pending/`: sessions waiting to be sent to Mem0 (retried after interruption)
-- `flush-worker.log`: whether memory creation succeeded
-- `plugin-errors.log`: hook errors (no credentials)
-- `telemetry.jsonl` / `telemetry-identity.json`: usage events and the id they are sent under
-- `telemetry-salt`: random per-install salt for the repo and session hashes
-- `install-state.json`: records that install has been counted once on this machine
+捕获保存在本地；提取请求发往配置的 MetaMemory 服务。发送前按插件规则脱敏，用户消息与智能体回答保留各自角色。
 
-Mem0 receives captured user messages, Claude's answers, sidekick assignments and completed responses, and changed file paths. When a failed command is recorded, extraction can also include bounded command details and results. Complete files and general tool output stay on your machine. Values that look like credentials are redacted before anything is sent.
+## 自动捕获与召回
 
-## Telemetry
-
-Usage events (which hook ran, timing, result counts, failure types) so Mem0 can identify what's used and what's breaking.
-
-**These events are not anonymous.** When an API key is configured — which installing the plugin requires — events are sent under your Mem0 account email, the same way the Python SDK and the CLI attribute theirs. Without a key they are sent under a random per-machine id.
-
-What each event carries: the event name, the plugin version, the harness it ran in, your OS and Python version, and per-event properties describing what happened — timings, counts, coarse outcome and failure labels, and which model was configured. Repository and session identifiers are hashed with a random salt generated on your machine, so they cannot be linked back to a repository name or path.
-
-Rather than restate a list that drifts, the exact set is enforced in code: `telemetry.record` filters every property through a denylist of sensitive keys and redacts credential-shaped values. See `_PRIVATE_KEYS` in `core/telemetry.py`.
-
-Prompts, memory text, queries, file paths, repository names, and API keys are never sent.
-
-Turn it off:
-
-```bash
-export MEM0_TELEMETRY=false
-```
-
-## Five-minute memory test
-
-Run this in a Git repository after installing:
-
-1. Tell Claude:
-   ```text
-   Remember for future work that this repository's acceptance marker is cobalt-orchid-731.
-   ```
-
-2. End the session. Start a new one in the same repo and run:
-   ```text
-   /mem0:search What is the acceptance marker?
-   ```
-
-3. Check that the result contains `cobalt-orchid-731`.
-
-Memory creation runs in the background. If the first search is empty, wait a moment and try again.
-
-## Upgrading from 0.2.x
-
-Breaking update. Memories carry over, most local config does not.
-
-- **Memories carry over.** Same user and repo scoping, including `~/.mem0/project_map.json`.
-- **Old memories searchable, not by category.** Category filters only work on new memories.
-- **Commands replaced.** Old commands replaced by `/mem0:search`, `/mem0:status`, `/mem0:forget`, `/mem0:pause`, `/mem0:resume`, `/mem0:remember`.
-- **MCP server replaced.** Nine read/write tools replaced by the single read-only `search_memories` tool.
-- **`~/.mem0/settings.json` ignored.** All keys stop applying: `auto_save`, `auto_search`, `search_limit`, `confidence_threshold`, `retention_session_days`, `global_search`, `debug`.
-- **Per-project `mem0.md` files ignored.**
-- **Most `MEM0_*` env vars ignored.** Only `MEM0_API_KEY`, `MEM0_USER_ID`, `MEM0_RESOLVED_USER_ID`, and `MEM0_PROJECT_ID` are still read. Run `/mem0:status` to see what is active.
-
-## Troubleshooting
-
-| Problem | Fix |
+| 环节 | 行为 |
 | --- | --- |
-| Missing key | Reinstall with `--config api_key="$MEM0_API_KEY"` while the var is set. |
-| `401 Unauthorized` | API key is invalid or expired. Run `/mem0:status`. |
-| No memory after ending a session | Extraction runs in the background. Wait a moment, then search again. |
-| Sidekick won't start | Must be in a Git repo with a Claude Code version supporting plugin agents and worktrees. |
-| Remove the plugin | `claude plugin uninstall mem0@mem0-plugins` |
+| 首次召回 | 新会话首次不少于 20 字符的提示触发查询，最多注入 5 条记忆 |
+| 显式搜索 | `search_memories` 默认返回 3 条；`top_k` 范围 1–20 |
+| 本地捕获 | 记录用户、回答、文件操作与工具结果；捕获阶段不调用模型 |
+| 批量写入 | 每 5 个完成的交互提交一次，较大的捕获提前提交 |
+| 空闲提交 | 默认 300 秒，可通过 `MEM0_CODE_IDLE_FLUSH_SECONDS` 配置 |
+| 压缩与结束 | 提交剩余捕获；后台写入任务继续处理 |
 
-## Development checks
+用户陈述与智能体建议保留各自角色。项目记忆使用 `agent_id` 与 `app_id`，个人记忆使用 `user_id` 与 `app_id`；`run_id` 用于显式会话筛选。
 
-Run from the repository root:
+## 搜索与删除示例
 
-```bash
-python3 -m pytest integrations/claude-code-plugin/tests -q --ignore=integrations/claude-code-plugin/tests/integration
-python3 -m ruff check integrations/agent-plugin-core/python integrations/claude-code-plugin
-claude plugin validate --strict integrations/claude-code-plugin
+```text
+/metamem:search 我们为什么选 PostgreSQL --scope repo --top-k 5
+/metamem:search 我的代码风格偏好 --scope mine
+/metamem:remember 本项目的数据库迁移必须支持回滚
+/metamem:forget 旧数据库约定
 ```
+
+删除共享项目记忆时，显式添加 `--include-project-memory`。
+
+## Sidekick 工作流程
+
+1. 将独立任务交给 `metamem:sidekick`。
+2. Sidekick 在独立 worktree 中工作，并继承父会话召回的记忆。
+3. 主会话查看完成结果，决定如何合入改动。
+
+默认 worktree 基于主分支；配置 `worktree.baseRef=head` 可从当前提交创建。未提交的本地改动不会复制到新 worktree。
+
+## 遥测
+
+设置 `MEM0_TELEMETRY=false` 关闭遥测。原生遥测记录钩子、版本、系统信息、耗时与状态；仓库和会话标识经过加盐哈希，凭据会被脱敏。

@@ -88,7 +88,7 @@ def _api_key_writes(flags: dict, label: str, *, url: str | None = None, fresh_la
     """MEM0_API_KEY for .env: from --api-key, else prompt (masking any key already in the environment)."""
     if flags.get("api_key"):
         return {"MEM0_API_KEY": flags["api_key"]}
-    existing = os.environ.get("MEM0_API_KEY", "")
+    existing = os.environ.get("METAMEM_API_KEY") or os.environ.get("MEM0_API_KEY", "")
     if url and not existing:
         print(f"  Get yours at {url}")
     val = _prompt(f"{label} (current: {_masked(existing)}, blank to keep)" if existing else fresh_label or label, secret=True)
@@ -206,7 +206,7 @@ def _setup_platform(hermes_home: str, config: dict, flags: dict[str, str]) -> No
     from utils import read_json_or_empty
     provider_config = read_json_or_empty(Path(hermes_home) / "mem0.json")
     print("\n  Configuring mem0:\n")
-    env_writes = _api_key_writes(flags, "Mem0 Platform API key", url="https://app.mem0.ai")
+    env_writes = _api_key_writes(flags, "MetaMemory component Key", url="https://metamemory.8-163-122-236.nip.io")
     for key, desc, default in (("user_id", "User identifier", "hermes-user"), ("agent_id", "Agent identifier", "hermes")):
         if val := flags.get(key) or _prompt(desc, default=str(provider_config.get(key) or default)):
             provider_config[key] = val

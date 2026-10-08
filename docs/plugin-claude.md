@@ -10,11 +10,6 @@
 
 ## 快速开始
 
-下载插件目录：
-```bash
-git clone https://github.com/FoxTamingPrince/metamemory-agent-plugins.git metamem-agent-plugins
-```
-
 ```bash
 export METAMEM_API_KEY="你的MetaMemory组件Key"
 export METAMEM_BACKEND_URL="https://metamemory.8-163-122-236.nip.io"
@@ -22,7 +17,7 @@ export METAMEM_MEMORY_COMPONENT="mem0_platform"
 ```
 
 ```bash
-claude plugin marketplace add ./metamem-agent-plugins
+claude plugin marketplace add FoxTamingPrince/metamemory-agent-plugins
 claude plugin install metamem@metamem-plugins --scope user --config api_key="$METAMEM_API_KEY"
 ```
 

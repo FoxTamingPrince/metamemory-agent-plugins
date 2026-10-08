@@ -1,95 +1,97 @@
-# deepseek-plugin
+# DeepSeek Harness
 
-[Mem0](https://mem0.ai) long-term memory as a native [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) (Cordis) plugin.
+为 DeepSeek Harness 提供原生记忆工具、回答前召回与完整回合捕获。
 
-It gives a Harness agent automatic long-term memory plus two explicit memory tools backed by the Mem0 SDK:
+## 前置条件
 
-| Capability | Does |
-|---|---|
-| Auto-recall | Searches Mem0 for the latest human prompt and adds unseen results to the model context |
-| Auto-capture | Stores the human/assistant messages from each completed turn |
-| `search_memory` | Recall facts from Mem0 relevant to a query |
-| `add_memory` | Store a fact in Mem0 for future sessions |
+DeepSeek Harness、MetaMemory 账号与组件 Key。
 
-Unlike the local/file-based memory plugins in the ecosystem, Mem0 is a managed backend: server-side extraction, semantic dedup and conflict resolution, and memories that other agents can retrieve when their user and entity filters match.
+## 安装
 
-Current package version: `0.3.0`.
-
-Sidekick is available only in the [Claude Code plugin](../claude-code-plugin/README.md#sonnet-sidekick-agent).
-
-## How it works
-
-A Cordis plugin is a module exporting `apply(ctx, config)`. This one waits for the Harness tool and system-prompt services, then uses the native extension points:
-
-- `system-prompt/assemble` recalls memory before a model request.
-- `session/event` captures only completed turns from the durable event stream.
-- `ctx.tools.register(...)` exposes explicit search and add tools.
-
-Completed human and assistant text is preserved after secret redaction, without the former 6,000-character per-message cutoff. Recall queries and displayed tool results retain separate size limits. These behaviors use [agent-plugin-core](../agent-plugin-core/README.md); this integration keeps its native tools and user-based scoping.
-
-Cordis owns listener and tool cleanup when the plugin unmounts. Every automatic path is fail-open: a memory API failure does not block the agent.
-
-```
-[ mem0ai SDK ]  <-- managed memory, owned by Mem0
-      |
-[ deepseek-plugin: prompt + session listeners, memory tools ]  <-- this package
-      |
-[ DeepSeek Harness ]  <-- the agent, loaded via cordis.yml
+```bash
+git clone https://github.com/FoxTamingPrince/metamemory-agent-plugins.git metamem-agent-plugins
 ```
 
-## Try it locally
+```bash
+export METAMEM_API_KEY="你的MetaMemory组件Key"
+export METAMEM_BACKEND_URL="https://metamemory.8-163-122-236.nip.io"
+export METAMEM_MEMORY_COMPONENT="mem0_platform"
+```
 
-1. Build and pack the plugin:
-   ```sh
-   cd integrations/deepseek-plugin
-   pnpm install --frozen-lockfile
-   pnpm build
-   mkdir -p /tmp/mem0-deepseek-plugin
-   pnpm pack --pack-destination /tmp/mem0-deepseek-plugin
-   ```
-2. Set your Mem0 key:
-   ```sh
-   export MEM0_API_KEY=...
-   ```
-3. Install it into a disposable Harness profile:
-   ```sh
-   DSH_HOME=/tmp/mem0-dsh-dev pnpm dlx @deepseek-ai/dsh@0.1.1-rc.2 \
-     plugin --profile headless add /tmp/mem0-deepseek-plugin/mem0-deepseek-plugin-0.3.0.tgz
-   ```
-4. Copy `cordis.example.yml`, set its installed package path and your `userId`, then run Harness with the same profile:
-   ```sh
-   DSH_HOME=/tmp/mem0-dsh-dev pnpm dlx @deepseek-ai/dsh@0.1.1-rc.2 \
-     web --patch ./integrations/deepseek-plugin/cordis.example.yml
-   ```
-5. Open http://127.0.0.1:3080 and ask the agent to remember something, then recall it in a later turn.
+```bash
+dsh plugin --profile headless add ./metamem-agent-plugins/integrations/deepseek-plugin
+```
 
-For a Mem0 Platform on-prem or dedicated deployment, point `config.host` at that base URL (defaults to `api.mem0.ai`). `host` overrides the Platform base URL. It does not support the self-hosted Mem0 OSS API.
+## 配置
 
-## Configuration
+在 Harness 的 Cordis 配置中注册已安装包：
 
-| Field | Required | Default | Notes |
-|---|---|---|---|
-| `apiKey` | no | `$MEM0_API_KEY` | Mem0 platform API key |
-| `userId` | yes | | Entity that owns the memories |
-| `allowUserOverride` | no | `false` | Permit model-selected access to a different user only in a trusted multi-user deployment |
-| `host` | no | `api.mem0.ai` | Platform base URL (on-prem / dedicated) |
-| `autoRecall` | no | `true` | Recall relevant memory before model requests |
-| `autoCapture` | no | `true` | Store completed human/assistant turns |
+```yaml
+- name: "@deepseek-ai/dsh-system-prompt"
+- name: "@deepseek-ai/dsh-tools"
+- insert:
+    - id: metamem
+      name: "/你的DSH目录/profiles/headless/node_modules/@metamem/deepseek-plugin/dist/index.js"
+      config:
+        userId: alice
+        host: https://metamemory.8-163-122-236.nip.io
+        autoRecall: true
+        autoCapture: true
+```
 
-## Memory scope
+使用同一 profile 加载该配置：
 
-Automatic capture and recall use the configured `userId` across sessions. Automatic writes do not attach a repository ID or `runId`.
+```bash
+dsh web --patch ./cordis.yml
+```
 
-Both `search_memory` and `add_memory` accept optional `agentId` and `runId`. On search, these narrow the returned memories; on add, they attach those identities to the stored memory. Pass a known `runId` to search memories explicitly saved with that session ID. This does not include automatically captured user-only memories or identify the session making the request.
+| 字段 | 用途 |
+| --- | --- |
+| `apiKey` | 组件 Key；可从 `MEM0_API_KEY` 或 `METAMEM_API_KEY` 读取 |
+| `userId` | 必填，记忆所属用户 |
+| `host` | MetaMemory 服务域名 |
+| `allowUserOverride` | 是否允许调用时覆盖用户；默认关闭 |
+| `autoRecall` | 回答前召回 |
+| `autoCapture` | 完成回合后捕获 |
 
-Per-call `userId` overrides are rejected unless the operator enables `allowUserOverride: true`. Automatic recall and capture always use the configured user.
+## 工作原理
 
-## Telemetry
+完成的用户与智能体回合用于捕获，召回结果进入模型上下文。
 
-Writes are tagged `source="DEEPSEEK_HARNESS"`. That value has to exist in the backend's `EventSource` enum for usage to surface by name; until it does, these writes read as `OTHERS`. It is added by [mem0ai/platform#3602](https://github.com/mem0ai/platform/pull/3602), which has to ship before this claim is true.
+## 智能体工具
 
-The plugin also sends usage events (which tool ran, duration, result counts, coarse failure kind) so Mem0 can tell how the plugin is used and where it breaks. These are **not anonymous**: when an API key is configured they are sent under your Mem0 account email, the same way the SDK attributes its own. Queries, memory text, and entity ids are never sent. Turn it off with `MEM0_TELEMETRY=false`.
+| 工具 | 用途 |
+| --- | --- |
+| `search_memory` | 检索；可用 `agentId`、`runId` 缩小范围 |
+| `add_memory` | 保存；可附加智能体与运行身份 |
 
-## Status
+## 记忆范围
 
-Developer preview. Tracks the DeepSeek Harness v0.1 plugin API, which is young and moving. Harness capability packages are peer dependencies supplied by the host; this package pins matching release-candidate versions for local typechecking and tests.
+自动捕获和召回使用配置的 `userId`。需要运行级记忆时，显式保存并查询同一 `runId`。
+
+## 遥测
+
+使用 `MEM0_TELEMETRY=false` 关闭原生插件遥测。
+
+## 参数默认值
+
+| 参数 | 默认值 | 配置方法 |
+| --- | --- | --- |
+| `apiKey` | 环境变量 | 可在 `config` 中显式设置 |
+| `userId` | 必填 | 在 `config` 中设置稳定用户身份 |
+| `allowUserOverride` | `false` | 控制工具是否允许覆盖用户身份 |
+| `autoRecall` | `true` | 在模型回答前召回 |
+| `autoCapture` | `true` | 在回合完成后捕获 |
+
+将示例中的模块路径替换为该 profile 的实际安装路径；通过同一个 profile 启动 Harness。
+
+## 生命周期
+
+| 宿主事件 | 插件操作 |
+| --- | --- |
+| `system-prompt/assemble` | 在系统提示中加入相关记忆 |
+| `session/event` | 捕获已经完成的对话回合 |
+| `ctx.tools.register` | 注册 `add_memory` 与 `search_memory` |
+| 卸载插件 | 移除注册的监听器 |
+
+自动操作按 `userId` 保存和检索。显式工具可使用 `agentId`、`runId`；子智能体的 preset 需要同样加载插件。

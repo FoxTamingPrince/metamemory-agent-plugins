@@ -9,11 +9,15 @@
     "openclaw.plugin.json",
     "dist/index.js",
     "dist/index.js",
-    "dist/metamem-transport.js"
+    "dist/metamem-transport.js",
+    "README.md"
   ],
   "runtime_logic_byte_identical": false,
   "fixed_endpoint_routing": true,
   "agent_plugins_contract": 1,
+  "publication_metadata": true,
+  "product_readme": true,
+  "product_configuration_aliases": false,
   "native_behavior_source": "frozen_mem0_agent_plugins",
   "provider_identity_changed": true,
   "native_endpoint_configuration": true,
@@ -29,7 +33,7 @@
     },
     {
       "path": "README.md",
-      "sha256": "2fe36f1a0ccf8ae090f603366e2c2b34404144642ad6ec495ef0f9fe5f6e8d51"
+      "sha256": "f7ddd034b9fc3d01e15b3a4ca782f5c9e9693ee8ccc9e0e29ae7dd31f0da4ac4"
     },
     {
       "path": "dist/chunk-H3N55OII.js",
@@ -73,7 +77,7 @@
     },
     {
       "path": "package.json",
-      "sha256": "d3ba59d95c3696c56317c7527a6ecf2fdaeef7c2bd57ece0f972129784b90a73"
+      "sha256": "8e99bbe8dd3e07457c54f9bf6a7c1c26ca679be629651f09455d1c50321ef49d"
     },
     {
       "path": "skills/memory-triage/SKILL.md",

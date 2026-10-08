@@ -6,11 +6,15 @@
   "baseline_manifest_sha256": "e3433a5f056e5cc8b7680b3a4f78723b05f134dbc94420b34c991da61ac9d3fa",
   "changed_files": [
     ".claude-plugin/plugin.json",
-    "core/memory_core.py"
+    "core/memory_core.py",
+    "README.md"
   ],
   "runtime_logic_byte_identical": false,
   "fixed_endpoint_routing": true,
   "agent_plugins_contract": 1,
+  "publication_metadata": true,
+  "product_readme": true,
+  "product_configuration_aliases": false,
   "native_behavior_source": "frozen_mem0_agent_plugins",
   "provider_identity_changed": false,
   "native_endpoint_configuration": true,
@@ -30,7 +34,7 @@
     },
     {
       "path": "README.md",
-      "sha256": "90346caa7eb977211f6957ad9e27c38e12c97166521000d2c0ba057ecbf35f55"
+      "sha256": "93e51e78006bde13ec28162140e831e6308e8f3dec97101317f911ab9c00f52b"
     },
     {
       "path": "adapters/claude/hook.py",

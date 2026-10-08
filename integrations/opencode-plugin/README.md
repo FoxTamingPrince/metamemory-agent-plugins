@@ -1,114 +1,114 @@
-# @mem0/opencode-plugin
+# OpenCode
 
-Persistent memory for [OpenCode](https://opencode.ai). Your agent remembers decisions, preferences, and learnings across sessions automatically.
+为 OpenCode 提供原生记忆工具、生命周期钩子与技能。
 
-Current package version: `0.3.0`. This native TypeScript integration keeps its own tools and scopes while sharing redaction and lifecycle utilities with [agent-plugin-core](../agent-plugin-core/README.md).
+## 前置条件
 
-Sidekick is available only in the [Claude Code plugin](../claude-code-plugin/README.md#sonnet-sidekick-agent).
-
-## Install
+MetaMemory 账号、组件 Key 和 OpenCode。
 
 ```bash
-opencode plugin @mem0/opencode-plugin
+export METAMEM_API_KEY="你的MetaMemory组件Key"
+export METAMEM_BACKEND_URL="https://metamemory.8-163-122-236.nip.io"
+export METAMEM_MEMORY_COMPONENT="mem0_platform"
 ```
 
-This adds the plugin to your `~/.config/opencode/opencode.json`. The plugin registers its memory tools and skills. No MCP server configuration is needed.
+## 安装
 
-**Or let your agent do it**: paste this into OpenCode:
-
-```
-Install @mem0/opencode-plugin by following https://raw.githubusercontent.com/mem0ai/mem0/main/integrations/opencode-plugin/README.md
-```
-
-Get your API key (free): [app.mem0.ai/dashboard/api-keys](https://app.mem0.ai/dashboard/api-keys)
+### 方式 A：安装插件（推荐）
 
 ```bash
-echo 'export MEM0_API_KEY="m0-your-key"' >> ~/.zshrc && source ~/.zshrc
+git clone https://github.com/FoxTamingPrince/metamemory-agent-plugins.git metamem-agent-plugins
 ```
 
-Restart OpenCode.
-
-## What's included
-
-| Component | Description |
-|-----------|-------------|
-| **10 Native Memory Tools** | `add_memory`, `search_memories`, `get_memories`, `update_memory`, `delete_memory`, and more, backed by the `mem0ai` SDK |
-| **Lifecycle Hooks** | Auto-search on session start and every prompt, error memory lookup, compaction context, secret redaction |
-| **7 Skills** | `/mem0-remember`, `/mem0-tour`, `/mem0-search`, `/mem0-status`, `/mem0-scope`, `/mem0-forget`, `/mem0-context-loader`. Discovered through OpenCode's `skills.paths` |
-
-## Hooks
-
-Written in TypeScript. Memory operations are native OpenCode tools backed by the [mem0ai](https://www.npmjs.com/package/mem0ai) SDK directly.
-
-| Hook | Event | What it does |
-|------|-------|-------------|
-| **Config** | `config` | Registers the `/mem0-*` slash commands (via `config.command`) and adds the plugin's own `opencode-skills/` dir to OpenCode's `skills.paths` for skill discovery without copying files |
-| **Chat message** | `chat.message` | Loads prior memories on session start, searches relevant memories before each prompt, auto-captures learnings periodically |
-| **Pre-tool** | `tool.execute.before` | Blocks MEMORY.md writes, steering them to the `add_memory` tool |
-| **Post-tool** | `tool.execute.after` | Scans bash errors and pre-fetches related memories |
-| **Messages transform** | `experimental.chat.messages.transform` | Injects memory context (session memories, search results, error lookups) into the prompt |
-| **Compaction** | `experimental.session.compacting` | Stores session state memory, then injects prior memories into compaction context |
-| **Shell env** | `shell.env` | Exports `MEM0_USER_ID`, `MEM0_APP_ID`, `MEM0_SESSION_ID`, and `MEM0_BRANCH` to shell |
-
-## Memory Tools
-
-| Tool | Description |
-|------|-------------|
-| `add_memory` | Save text or conversation history |
-| `search_memories` | Semantic search across memories |
-| `get_memories` | List memories with filters and pagination |
-| `get_memory` | Retrieve a specific memory by ID |
-| `update_memory` | Overwrite a memory's text by ID |
-| `delete_memory` | Delete a single memory by ID |
-| `delete_all_memories` | Bulk delete all memories in scope |
-| `delete_entities` | Delete an entity and its memories |
-| `list_entities` | List users/agents/apps stored in Mem0 |
-| `get_event_status` | Check the processing status of an asynchronous memory event |
-
-## Memory scope
-
-`add_memory`, `search_memories`, `get_memories`, and `delete_all_memories` accept an optional `scope`. You can set the **default**
-scope (used when none is passed) with the `/mem0-scope` skill:
-
-| Scope | Reads | Writes |
-|-------|-------|--------|
-| `project` (default) | this repo (`user_id` + `app_id`) | this repo |
-| `session` | this run (adds `run_id`) | this run |
-| `global` | all your projects (filtered by your user ID) | user-wide (drops `app_id`) |
-
-```
-/mem0-scope            # show the current default scope
-/mem0-scope global     # save & search across all your projects by default
-/mem0-scope project    # back to repo-only (default)
+```bash
+opencode plugin ./metamem-agent-plugins/integrations/opencode-plugin
 ```
 
-The default persists in `~/.mem0/settings.json` (`default_scope`) and is read
-fresh on each memory operation, so changes apply without a restart.
-`delete_all_memories` always requires an explicit `scope="global"` to delete
-user-wide, so changing the default can't trigger a cross-project wipe.
+重新启动 OpenCode。插件自动登记原生工具、钩子与 `/mem0-*` 命令。
 
-## Capture and session context
+### 方式 B：独立 MCP
 
-Automatic capture saves every third qualifying user prompt. Other exchanges and assistant conclusions can be saved through `add_memory` or the remember skill; this is not a complete transcript recorder. Captured and explicitly saved text is redacted without the former 6,000-character cutoff.
+在项目或全局 `opencode.json` 中添加：
 
-Automatic capture uses the user and repository IDs, with the session ID in metadata. Explicit `session`-scope writes and searches use the top-level `run_id` filter. A session-scoped search therefore does not automatically include project memories that only carry `metadata.session_id`.
+```json
+{
+  "mcp": {
+    "metamem": {
+      "type": "remote",
+      "url": "https://metamemory.8-163-122-236.nip.io/mcp/",
+      "headers": {"Authorization": "Token {env:METAMEM_API_KEY}"},
+      "oauth": false
+    }
+  }
+}
+```
 
-These `project`/`session`/`global` scopes are specific to this integration, not the Python plugins' `repo`/`dir`/`mine` scopes. Global tool access requires the user to enable it through `/mem0-scope global` or plugin settings first.
+## 包含的功能
 
-## Verify
+| 功能 | 插件 | 独立 MCP |
+| --- | --- | --- |
+| 记忆工具 | 原生 SDK 工具 | 远程工具 |
+| 生命周期钩子 | 有 | 无 |
+| 七个技能 | 有 | 无 |
 
-Start OpenCode and ask: *"Search my memories for recent decisions"*
+## 可用记忆工具
 
-If the `mem0` tools respond, you're all set.
+`add_memory`、`search_memories`、`get_memories`、`get_memory`、`update_memory`、`delete_memory`、`delete_all_memories`、`delete_entities`、`list_entities`、`get_event_status`。
 
-## Troubleshooting
+## 记忆范围
 
-| Problem | Fix |
-|---------|-----|
-| No tools appearing | Restart OpenCode after installing |
-| 401 Unauthorized | Check that `MEM0_API_KEY` is set to a valid key without printing it |
-| Plugin not loading | Run `opencode plugin @mem0/opencode-plugin` again |
+| 范围 | 用途 |
+| --- | --- |
+| `project` | 当前仓库 |
+| `session` | 当前运行 |
+| `global` | 当前用户的全部项目 |
 
-## License
+通过 `/mem0-scope` 切换范围；`/mem0-context-loader` 载入上下文。全局删除要求显式指定全局范围。
 
-Apache-2.0
+## 命令
+
+| 命令 | 用途 |
+| --- | --- |
+| `/mem0-remember` | 保存指定内容 |
+| `/mem0-search` | 查询记忆 |
+| `/mem0-tour` | 浏览记忆 |
+| `/mem0-status` | 查看连接、身份与记忆数量 |
+| `/mem0-scope` | 选择项目、会话或全局范围 |
+| `/mem0-forget` | 查询并确认删除 |
+
+## 生命周期钩子
+
+| 事件 | 作用 |
+| --- | --- |
+| `config` | 注册命令与技能路径 |
+| `chat.message` | 召回与选择性捕获 |
+| `tool.execute.before` | 引导记忆写入工具 |
+| `tool.execute.after` | 根据工具错误查询记忆 |
+| `experimental.chat.messages.transform` | 注入记忆上下文 |
+| `experimental.session.compacting` | 保存并恢复会话状态 |
+| `shell.env` | 传递用户、项目与会话身份 |
+
+## 范围参数
+
+| `scope` | 记忆身份 | 用途 |
+| --- | --- | --- |
+| `project` | `user_id` + `app_id` | 当前仓库，默认范围 |
+| `session` | 项目身份 + `run_id` | 当前会话 |
+| `global` | `user_id` | 跨项目个人记忆 |
+
+项目身份优先从 Git remote 取得，随后使用仓库根目录或工作目录。`/mem0-scope` 将选择保存到 `~/.mem0/settings.json` 的 `default_scope`；每次操作读取配置，无须重启。
+
+全局范围由用户通过 `/mem0-scope global` 明确选择。全局删除仍需显式指定 `scope: "global"`。
+
+## 自动捕获规则
+
+会话开始及用户提示时执行召回。每第三条符合条件的用户提示触发自动捕获，保留脱敏后的完整用户文本。自动写入将会话标识存入 `metadata.session_id`；显式 session 工具通过 `run_id` 隔离。
+
+| 钩子 | 用途 |
+| --- | --- |
+| `chat.message` | 提示召回与定期捕获 |
+| `tool.execute.before` | 阻止以 MEMORY.md 文件替代记忆工具写入 |
+| `tool.execute.after` | 根据 shell 错误检索相关处理经验 |
+| 上下文转换 | 注入记忆与使用说明 |
+| 上下文压缩 | 保存压缩前状态 |
+| `shell.env` | 传递用户、项目、会话与分支身份 |

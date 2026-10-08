@@ -97,7 +97,7 @@ def _load_config() -> dict:
     if config.get("mode", "platform") == "oss":
         config.setdefault("api_key", "")
     elif not config.get("api_key"):
-        config["api_key"] = get_secret("MEM0_API_KEY", "")
+        config["api_key"] = (get_secret("METAMEM_API_KEY", "") or get_secret("MEM0_API_KEY", ""))
     return config
 
 
